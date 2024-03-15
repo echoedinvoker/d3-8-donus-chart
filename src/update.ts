@@ -1,4 +1,4 @@
-import { arc, pie, select } from "d3";
+import { arc, pie, scaleOrdinal, schemeSet3, select } from "d3";
 import { ExpenseWithId } from "./types";
 
 
@@ -22,7 +22,13 @@ const arcPath = arc()
   .outerRadius(dims.radius)
   .innerRadius(dims.radius / 2);
 
+// const colour = scaleOrdinal(['#f4d03f', '#16a085', '#e74c3c', '#95a5a6', '#e67e22']);
+const colour = scaleOrdinal(schemeSet3)
+
 export function update(data: ExpenseWithId[]) {
+
+  colour.domain(data.map(d => d.itemname));
+
   const paths = graph.selectAll('path')
     .data(p(data as any))
 
@@ -30,4 +36,5 @@ export function update(data: ExpenseWithId[]) {
     .attr('class', 'arc')
     .attr('d', (d) => arcPath(d as any))
     .attr('stroke', '#fff')
+    .attr('fill', (d: any) => colour(d.data.itemname))
 }

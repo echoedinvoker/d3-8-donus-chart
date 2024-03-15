@@ -22,7 +22,6 @@ const arcPath = arc()
   .outerRadius(dims.radius)
   .innerRadius(dims.radius / 2);
 
-// const colour = scaleOrdinal(['#f4d03f', '#16a085', '#e74c3c', '#95a5a6', '#e67e22']);
 const colour = scaleOrdinal(schemeSet3)
 
 export function update(data: ExpenseWithId[]) {
@@ -31,6 +30,10 @@ export function update(data: ExpenseWithId[]) {
 
   const paths = graph.selectAll('path')
     .data(p(data as any))
+
+  paths.exit().remove();
+
+  paths.attr('d', (d) => arcPath(d as any));
 
   paths.enter().append('path')
     .attr('class', 'arc')

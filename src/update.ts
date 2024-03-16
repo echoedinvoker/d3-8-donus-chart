@@ -41,7 +41,6 @@ export function update(data: ExpenseWithId[]) {
 
   paths.enter().append('path')
     .attr('class', 'arc')
-    // .attr('d', (d) => arcPath(d as any))
     .attr('stroke', '#fff')
     .attr('fill', (d: any) => colour(d.data.itemname))
     .transition().duration(750)

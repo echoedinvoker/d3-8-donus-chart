@@ -1,5 +1,5 @@
 import { interpolate } from "d3";
-import { arcPath } from "../update";
+import { arcPath } from "../dGenerators";
 
 export function arcTweenEnter(d: any): (t: number) => string {
   var i = interpolate(d.endAngle, d.startAngle);

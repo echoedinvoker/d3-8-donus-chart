@@ -1,5 +1,5 @@
 import { interpolate } from "d3";
-import { arcPath } from "../update";
+import { arcPath } from "../dGenerators";
 import { ArcElement } from "types";
 
 export function arcTweenUpdate(that: ArcElement, d: any): (t: number) => string {

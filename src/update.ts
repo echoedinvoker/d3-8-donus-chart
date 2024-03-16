@@ -1,10 +1,13 @@
-import { arc, pie, scaleOrdinal, schemeSet3, select } from "d3";
+import { select } from "d3";
 import { ArcElement, ExpenseWithId } from "./types";
 import { arcTweenEnter, arcTweenExit, arcTweenUpdate } from "./tweens";
+import { colour } from "./scales";
+import { legend } from "./generators";
+import { p } from "./dataProcesser";
+import { cent, dims } from "./config";
+import { arcPath } from "./dGenerators";
 
 
-const dims = { height: 300, width: 300, radius: 150 };
-const cent = { x: dims.width / 2 + 5, y: dims.height / 2 + 5 };
 
 const svg = select('.canvas')
   .append('svg')
@@ -14,20 +17,14 @@ const svg = select('.canvas')
 const graph = svg.append('g')
   .attr('transform', `translate(${cent.x}, ${cent.y})`);
 
-const p = pie()
-  .sort(null)
-  .value((d: any) => d.amount);
-
-
-export const arcPath = arc()
-  .outerRadius(dims.radius)
-  .innerRadius(dims.radius / 2);
-
-const colour = scaleOrdinal(schemeSet3)
+const legendGroup = svg.append('g')
+  .attr('transform', `translate(${dims.width + 40}, 10)`);
 
 export function update(data: ExpenseWithId[]) {
 
   colour.domain(data.map(d => d.itemname));
+
+  legendGroup.call(legend as any);
 
   const paths = graph.selectAll('path')
     .data(p(data as any))

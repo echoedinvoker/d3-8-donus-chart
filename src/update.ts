@@ -25,6 +25,7 @@ export function update(data: ExpenseWithId[]) {
   colour.domain(data.map(d => d.itemname));
 
   legendGroup.call(legend as any);
+  legendGroup.selectAll('text').attr('fill', 'white');
 
   const paths = graph.selectAll('path')
     .data(p(data as any))

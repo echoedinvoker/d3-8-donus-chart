@@ -1,6 +1,6 @@
 import { arc, pie, scaleOrdinal, schemeSet3, select } from "d3";
-import { ExpenseWithId } from "./types";
-import { arcTweenEnter, arcTweenExit } from "./tweens";
+import { ArcElement, ExpenseWithId } from "./types";
+import { arcTweenEnter, arcTweenExit, arcTweenUpdate } from "./tweens";
 
 
 const dims = { height: 300, width: 300, radius: 150 };
@@ -37,7 +37,9 @@ export function update(data: ExpenseWithId[]) {
     .attrTween('d', arcTweenExit)
     .remove();
 
-  paths.attr('d', (d) => arcPath(d as any));
+  paths.attr('d', (d) => arcPath(d as any))
+    .transition().duration(750)
+    .attrTween('d', function(this: ArcElement, d: any) { return arcTweenUpdate(this, d) } as any)
 
   paths.enter().append('path')
     .attr('class', 'arc')
